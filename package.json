@@ -1,0 +1,14 @@
+{
+  "name": "Monode",
+  "version": "1.0.0",
+  "description": "Control your local Monero node",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "detherminal",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.1.0"
+  }
+}
