@@ -4,8 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monode</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
 </head>
 <body>
-    <p>HELLO WORLD!</p>
+    <div id="root">
+        <p>Status: </p>
+        <p>Daemon Version: </p>
+        <p>Logs: </p>
+        <div id="show-logs"></div>
+        <div id="bottom-control-panel">
+            <button id="start-stop">Start</button>
+        </div>
+    </div>
 </body>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        font-family: "rubik-regular";
+    }
+    @font-face {
+        font-family: "rubik-regular";
+        src: url("../assets/Rubik-Regular.ttf");
+    }
+    p {
+        margin: 5px;
+    }
+    #bottom-control-panel {
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        background-color: #f0f0f0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    button {
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid black;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: black;
+        color: white;
+    }
+    #show-logs {
+        height: 200px;
+        overflow-y: scroll;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 5px;
+    }
+</style>
 </html>

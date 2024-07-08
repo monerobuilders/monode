@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monode</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <script defer src="./wait.js"></script>
+</head>
+
+<body>
+    <p>Welcome to Monode!</p>
+    <p>We are setting your node, please wait.</p>
+    <p id="status-p">Status: loading</p>
+    <div id="bottom-warning">
+        <p id="bottom-warning-p">Warning: Do not close this window.</p>
+    </div>
+</body>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        font-family: "rubik-regular";
+        text-align: center;
+    }
+
+    @font-face {
+        font-family: "rubik-regular";
+        src: url("../assets/Rubik-Regular.ttf");
+    }
+
+    p {
+        margin: 5px;
+        font-size: 20px;
+    }
+
+    body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #bottom-warning {
+        font-size: 20px;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        background-color: #f0f0f0;
+        padding: 10px;
+    }
+
+    #bottom-warning-p {
+        font-size: 15px;
+    }
+
+    #status-p {
+        margin-top: 20px;
+    }
+</style>
+</html>

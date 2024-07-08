@@ -1,8 +1,8 @@
 {
-  "name": "Monode",
+  "name": "monode",
   "version": "1.0.0",
   "description": "Control your local Monero node",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron ."
   },
@@ -10,5 +10,9 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^31.1.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "download": "^8.0.0"
   }
 }
