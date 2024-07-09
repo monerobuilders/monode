@@ -1,5 +1,7 @@
 const { app, BrowserWindow, Tray, Menu } = require('electron');
 const { ipcMain } = require('electron');
+const AutoLaunch = require('auto-launch');
+const { homedir } = require('os');
 
 function showMain() {
     const mainWindow = new BrowserWindow({
@@ -14,20 +16,40 @@ function showMain() {
     });
     mainWindow.setMenu(null);
     // mainWindow.webContents.openDevTools();
-    mainWindow.loadFile('src/pages/index/index.html');   
+    mainWindow.loadFile('src/pages/index/index.html');
+    mainWindow.on('close', function (event) {
+        if (!app.isQuitting) {
+            event.preventDefault();
+            mainWindow.hide();
+        }
+    });
+}
+
+function showTray() {
+    tray = new Tray('./assets/favicon.png');
+    const contextMenu = Menu.buildFromTemplate([
+        { label: 'Show', click: () => { showMain(); } },
+        { label: 'Quit', click: () => { app.isQuitting = true; app.quit(); } },
+    ]);
+    tray.setContextMenu(contextMenu);
 }
 
 app.whenReady().then(() => {
     ipcMain.on("finished-initailization", (event, arg) => {
-        tray = new Tray('./assets/favicon.png');
-        const contextMenu = Menu.buildFromTemplate([
-            { label: 'Show', click: () => { showMain(); } },
-            { label: 'Quit', click: () => { app.quit(); } },
-        ]);
-        tray.setContextMenu(contextMenu);
+        showTray();
         showMain();
     });
-    homedir = app.getPath('home');
+    ipcMain.handle("setup-auto-launch", async (event, arg) => {
+        let exePath = app.getPath('exe');
+        fs.copyFileSync(exePath, path.join(homedir, './.monode/monode_monero/monode.exe'));
+        let autoLaunch = new AutoLaunch({
+            name: 'Monode',
+            path: path.join(homedir, './.monode/monode_monero/monode.exe'),
+        })
+        autoLaunch.enable();
+        return;
+    });
+    const homedir = app.getPath('home');
     const fs = require('fs');
     const path = require('path');
     const configPath = path.join(homedir, './.monode/config.json');
@@ -49,6 +71,9 @@ app.whenReady().then(() => {
         // mainWindow.webContents.openDevTools();
         mainWindow.loadFile('src/pages/wait/wait.html');
     } else {
-        showMain();
+        showTray();
+        if (!(app.getPath('exe') == homedir + '/.monode/monode_monero/monode.exe')) {
+            showMain();
+        }
     }
 });

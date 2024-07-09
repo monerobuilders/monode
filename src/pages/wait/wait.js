@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const http = require('http');
+const { ipcRenderer } = require('electron');
 
 function is64Bit() {
     return ['arm64', 'ppc64', 'x64', 's390x'].includes(os.arch())
@@ -66,7 +67,7 @@ async function win32() {
     status_p.innerText = 'Status: Extracting daemon'
     const decompress = require('decompress');
     await decompress(configPath, path.join(homedir, './.monode/'))
-    status_p.innerText = 'Status: Setting up config'
+    status_p.innerText = 'Status: Configuring system'
     const moneroFolder = fs.readdirSync(path.join(homedir, './.monode/')).find((file) => file.startsWith('monero'));
     fs.renameSync(path.join(homedir, './.monode/', moneroFolder), path.join(homedir, './.monode/monode_monero'));
     const cp = require('child_process');
@@ -75,6 +76,7 @@ async function win32() {
         'version': daemonVersion,
     };
     fs.writeFileSync(path.join(homedir, './.monode/config.json'), JSON.stringify(config));
+    await ipcRenderer.invoke('setup-auto-launch', null);
     status_p.innerText = 'Status: Done. You can continue by pressing the button below.'
     continue_button = document.getElementById('continue-button');
     continue_button.style.visibility = 'visible';
@@ -99,7 +101,6 @@ function downloadMonero() {
 }
 
 function openIndex() {
-    const { ipcRenderer } = require('electron');
     ipcRenderer.send('finished-initailization', null);
     window.close();
 }

@@ -53,30 +53,6 @@ async function main() {
         document.getElementById("status-p").innerText = "Status: Daemon is not running";
         document.getElementById("start-stop").textContent = "Start";
     }
-    /*
-    exec(homedir + '/.monode/monode_monero/monerod.exe status').then((stdout) => {
-        if (stdout.stdout.includes("Error: Couldn't connect to daemon:")) {
-            
-        } else {
-            fs.readFile(configDir + '/logs/monerod.logs', 'utf8', (err, data) => {
-                output.innerText = data;
-                output.scrollTop = output.scrollHeight;
-            });
-            fs.watchFile(configDir + '/logs/monerod.logs', () => {
-                fs.readFile(configDir + '/logs/monerod.logs', 'utf8', (err, data) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    output.innerText = data;
-                    output.scrollTop = output.scrollHeight;
-                });
-            });
-            document.getElementById("status-p").innerText = "Status: Daemon is running";
-            document.getElementById("start-stop").textContent = "Stop";
-        }
-    });
-    */
 }
 
 function killProcess(processName) {
