@@ -13,6 +13,7 @@
     <p>Welcome to Monode!</p>
     <p>We are setting your node, please wait.</p>
     <p id="status-p">Status: loading</p>
+    <button id="continue-button" onclick="openIndex()">Continue</button>
     <div id="bottom-warning">
         <p id="bottom-warning-p">Warning: Do not close this window.</p>
     </div>
@@ -27,7 +28,7 @@
 
     @font-face {
         font-family: "rubik-regular";
-        src: url("../assets/Rubik-Regular.ttf");
+        src: url("../../../assets/Rubik-Regular.ttf");
     }
 
     p {
@@ -58,6 +59,21 @@
 
     #status-p {
         margin-top: 20px;
+    }
+
+    #continue-button {
+        padding: 10px;
+        margin: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+        background-color: white;
+        cursor: pointer;
+        visibility: hidden;
+    }
+
+    #continue-button:hover {
+        background-color: black;
+        color: white;
     }
 </style>
 </html>

@@ -49,7 +49,7 @@ function downloadFile(fileUrl, outputPath) {
         const protocol = parsedUrl.protocol === 'https:' ? https : http;
 
         protocol.get(fileUrl, handleResponse).on('error', (err) => {
-            fs.unlink(outputPath, () => { }); // Delete the file async
+            fs.unlink(outputPath, () => { });
             reject(err);
         });
     });
@@ -60,10 +60,24 @@ async function win32() {
     const version = is64Bit() ? '64' : '32';
     homedir = os.homedir();
     fs.mkdirSync(path.join(homedir, './.monode'), { recursive: true });
-    configPath = path.join(homedir, './.monode/monero.zip');
+    configPath = path.join(homedir, './.monode/daemon.zip');
     status_p.innerText = 'Status: Downloading daemon'
     await downloadFile('https://downloads.getmonero.org/win' + version, configPath);
+    status_p.innerText = 'Status: Extracting daemon'
+    const decompress = require('decompress');
+    await decompress(configPath, path.join(homedir, './.monode/'))
     status_p.innerText = 'Status: Setting up config'
+    const moneroFolder = fs.readdirSync(path.join(homedir, './.monode/')).find((file) => file.startsWith('monero'));
+    fs.renameSync(path.join(homedir, './.monode/', moneroFolder), path.join(homedir, './.monode/monode_monero'));
+    const cp = require('child_process');
+    const daemonVersion = cp.execSync(path.join(homedir, './.monode/monode_monero/monerod.exe') + ' --version').toString();
+    const config = {
+        'version': daemonVersion,
+    };
+    fs.writeFileSync(path.join(homedir, './.monode/config.json'), JSON.stringify(config));
+    status_p.innerText = 'Status: Done. You can continue by pressing the button below.'
+    continue_button = document.getElementById('continue-button');
+    continue_button.style.visibility = 'visible';
 }
 
 function linux() {
@@ -82,6 +96,12 @@ function downloadMonero() {
     } else if (process.platform === 'darwin') {
         darwin();
     }
+}
+
+function openIndex() {
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.send('finished-initailization', null);
+    window.close();
 }
 
 downloadMonero();

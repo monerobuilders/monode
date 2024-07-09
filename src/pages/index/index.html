@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monode</title>
     <link rel="icon" href="favicon.png" type="image/x-icon">
+    <script defer src="./index.js"></script>
 </head>
 <body>
     <div id="root">
-        <p>Status: </p>
-        <p>Daemon Version: </p>
+        <p id="daemon-version-p">Daemon version: Loading...</p>
+        <p id="status-p">Status: Loading...</p>
+        <p id="height-p">Height: Loading...</p>
+        <p id="sync-status-p">Sync Status: Loading...</p>
         <p>Logs: </p>
         <div id="show-logs"></div>
         <div id="bottom-control-panel">
-            <button id="start-stop">Start</button>
+            <button id="start-stop" onclick="startStopDaemon()">Start</button>
         </div>
     </div>
 </body>
@@ -25,7 +28,7 @@
     }
     @font-face {
         font-family: "rubik-regular";
-        src: url("../assets/Rubik-Regular.ttf");
+        src: url("../../../assets/Rubik-Regular.ttf");
     }
     p {
         margin: 5px;
